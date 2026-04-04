@@ -365,7 +365,10 @@ def laplacian_hq_loss(prediction, gt):
 class VGG19FeatLayer(nn.Module):
     def __init__(self):
         super(VGG19FeatLayer, self).__init__()
-        self.vgg19 = models.vgg19(pretrained=True).features.eval().cuda()
+        try:
+            self.vgg19 = models.vgg19(weights=models.VGG19_Weights.DEFAULT).features.eval().cuda()
+        except Exception:
+            self.vgg19 = models.vgg19(pretrained=True).features.eval().cuda()
         self.mean = torch.tensor([0.485, 0.456, 0.406]).view(1, 3, 1, 1).cuda()
         self.std = torch.tensor([0.229, 0.224, 0.225]).view(1, 3, 1, 1).cuda()
 

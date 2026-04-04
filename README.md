@@ -65,6 +65,21 @@ Clone the repo:
 
     Please run `python demos/demo_reconstruct.py --help` for more details. 
 
+    **Where to see the 3D result**
+
+    The reconstruction command writes a per-image folder under your save path.
+    For example, with:
+    ```bash
+    python demos/demo_reconstruct.py -i TestSamples/examples/image02673.png -s demo_output_image02673 --iscrop false --saveObj true --saveKpt true --saveDepth true
+    ```
+    you will get:
+    - `demo_output_image02673/image02673/image02673.obj`: coarse 3D mesh
+    - `demo_output_image02673/image02673/image02673_detail.obj`: detailed 3D mesh
+    - `demo_output_image02673/image02673/image02673.mtl` and `.png`: texture/material files
+    - `demo_output_image02673/image02673_vis.jpg`: rendered visualization image
+
+    Open the `.obj` file in a 3D viewer such as MeshLab or Blender to inspect/rotate the reconstructed 3D face.
+
     b. **expression transfer**   
     ```bash
     python demos/demo_transfer.py

@@ -170,19 +170,38 @@ def copy_parameter_from_resnet(model, resnet_dict):
     # print('copy resnet state dict finished!')
     # import ipdb; ipdb.set_trace()
 
+def _load_torchvision_resnet_state_dict(constructor, weights_enum_name, use_pretrained):
+    # torchvision >=0.13 uses explicit weight enums; keep fallback for older versions.
+    try:
+        if use_pretrained:
+            weights_enum = getattr(torchvision.models, weights_enum_name)
+            return constructor(weights=weights_enum.DEFAULT).state_dict()
+        return constructor(weights=None).state_dict()
+    except Exception:
+        return constructor(pretrained=use_pretrained).state_dict()
+
 def load_ResNet50Model():
     model = ResNet(Bottleneck, [3, 4, 6, 3])
-    copy_parameter_from_resnet(model, torchvision.models.resnet50(pretrained = False).state_dict())
+    copy_parameter_from_resnet(
+        model,
+        _load_torchvision_resnet_state_dict(torchvision.models.resnet50, 'ResNet50_Weights', False)
+    )
     return model
 
 def load_ResNet101Model():
     model = ResNet(Bottleneck, [3, 4, 23, 3])
-    copy_parameter_from_resnet(model, torchvision.models.resnet101(pretrained = True).state_dict())
+    copy_parameter_from_resnet(
+        model,
+        _load_torchvision_resnet_state_dict(torchvision.models.resnet101, 'ResNet101_Weights', True)
+    )
     return model
 
 def load_ResNet152Model():
     model = ResNet(Bottleneck, [3, 8, 36, 3])
-    copy_parameter_from_resnet(model, torchvision.models.resnet152(pretrained = True).state_dict())
+    copy_parameter_from_resnet(
+        model,
+        _load_torchvision_resnet_state_dict(torchvision.models.resnet152, 'ResNet152_Weights', True)
+    )
     return model
 
 # model.load_state_dict(checkpoint['model_state_dict'])

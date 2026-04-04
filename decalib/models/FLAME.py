@@ -37,7 +37,7 @@ for _name, _value in {
     'unicode': builtins.str,
     'str': builtins.str,
 }.items():
-    if not hasattr(np, _name):
+    if _name not in np.__dict__:
         setattr(np, _name, _value)
 
 def to_tensor(array, dtype=torch.float32):

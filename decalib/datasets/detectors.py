@@ -19,7 +19,12 @@ import torch
 class FAN(object):
     def __init__(self):
         import face_alignment
-        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False)
+        # face_alignment enum name changed across versions (_2D -> TWO_D).
+        if hasattr(face_alignment.LandmarksType, "_2D"):
+            landmarks_type = face_alignment.LandmarksType._2D
+        else:
+            landmarks_type = face_alignment.LandmarksType.TWO_D
+        self.model = face_alignment.FaceAlignment(landmarks_type, flip_input=False)
 
     def run(self, image):
         '''

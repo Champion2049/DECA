@@ -79,6 +79,12 @@ class FaceScapeListDataset(Dataset):
             0.77, 0.76, 0.76, 0.76, 0.77, 0.79, 0.80, 0.79,
         ], dtype=np.float32)
         template = np.stack([x, y], axis=1)
+        # Keep compatibility with DECA losses which expect 68 landmark points.
+        if template.shape[0] < 68:
+            pad = np.repeat(template[-1:, :], 68 - template.shape[0], axis=0)
+            template = np.concatenate([template, pad], axis=0)
+        elif template.shape[0] > 68:
+            template = template[:68]
         return template
 
     def _landmark_path(self, image_path):

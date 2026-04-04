@@ -187,10 +187,12 @@ class Trainer(object):
                 losses['photometric_texture'] = (masks*(predicted_images - images).abs()).mean()*self.cfg.loss.photo
 
             if self.cfg.loss.id > 0.:
-                shading_images = self.deca.render.add_SHlight(opdict['normal_images'], codedict['light'].detach())
-                albedo_images = F.grid_sample(opdict['albedo'].detach(), opdict['grid'], align_corners=False)
-                overlay = albedo_images*shading_images*mask_face_eye + images*(1-mask_face_eye)
-                losses['identity'] = self.id_loss(overlay, images) * self.cfg.loss.id
+                # Identity loss requires texture/albedo outputs.
+                if 'albedo' in opdict and 'normal_images' in opdict and 'grid' in opdict:
+                    shading_images = self.deca.render.add_SHlight(opdict['normal_images'], codedict['light'].detach())
+                    albedo_images = F.grid_sample(opdict['albedo'].detach(), opdict['grid'], align_corners=False)
+                    overlay = albedo_images*shading_images*mask_face_eye + images*(1-mask_face_eye)
+                    losses['identity'] = self.id_loss(overlay, images) * self.cfg.loss.id
             
             losses['shape_reg'] = (torch.sum(codedict['shape']**2)/2)*self.cfg.loss.reg_shape
             losses['expression_reg'] = (torch.sum(codedict['exp']**2)/2)*self.cfg.loss.reg_exp
@@ -377,6 +379,11 @@ class Trainer(object):
     def fit(self):
         self.prepare_data()
 
+        eval_data = []
+        if hasattr(self.cfg.dataset, 'eval_data') and self.cfg.dataset.eval_data is not None:
+            eval_data = [str(x).lower() for x in self.cfg.dataset.eval_data]
+        run_now_eval = 'now' in eval_data
+
         iters_every_epoch = int(len(self.train_dataset)/self.batch_size)
         start_epoch = self.global_step//iters_every_epoch
         for epoch in range(start_epoch, self.cfg.train.max_epochs):
@@ -431,7 +438,7 @@ class Trainer(object):
                 if self.global_step % self.cfg.train.val_steps == 0:
                     self.validation_step()
                 
-                if self.global_step % self.cfg.train.eval_steps == 0:
+                if run_now_eval and self.cfg.train.eval_steps > 0 and self.global_step % self.cfg.train.eval_steps == 0:
                     self.evaluate()
 
                 all_loss = losses['all_loss']

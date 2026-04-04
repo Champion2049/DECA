@@ -1,0 +1,83 @@
+2026-04-04 05:10:31.903 | INFO     | decalib.trainer:prepare_data:364 - ---- training data numbers: 
+2026-04-04 12:34:43.448 | INFO     | decalib.trainer:prepare_data:364 - ---- training data numbers: 
+2026-04-04 12:40:02.151 | INFO     | decalib.trainer:prepare_data:364 - ---- training data numbers: 
+2026-04-04 12:42:28.199 | INFO     | decalib.trainer:prepare_data:366 - ---- training data numbers: 
+2026-04-04 12:42:37.659 | INFO     | decalib.trainer:fit:401 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 0, Iter: 0/100, Time: 2026-04-04-12:42:37 
+landmark: 0.1520, eye_distance: 0.0692, lip_distance: 0.0104, photometric_texture: 0.3240, shape_reg: 0.0018, expression_reg: 0.0016, tex_reg: 0.0005, light_reg: 0.0001, all_loss: 0.5596, 
+2026-04-04 12:44:20.353 | INFO     | decalib.trainer:prepare_data:366 - ---- training data numbers: 
+2026-04-04 12:44:29.747 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 0, Iter: 0/100, Time: 2026-04-04-12:44:29 
+landmark: 0.1452, eye_distance: 0.0734, lip_distance: 0.0097, photometric_texture: 0.4068, shape_reg: 0.0011, expression_reg: 0.0036, tex_reg: 0.0004, light_reg: 0.0000, all_loss: 0.6403, 
+2026-04-04 12:44:42.665 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 0, Iter: 20/100, Time: 2026-04-04-12:44:42 
+landmark: 0.1017, eye_distance: 0.0710, lip_distance: 0.0052, photometric_texture: 0.3536, shape_reg: 0.0012, expression_reg: 0.0021, tex_reg: 0.0004, light_reg: 0.0001, all_loss: 0.5353, 
+2026-04-04 12:44:43.746 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 0, Iter: 40/100, Time: 2026-04-04-12:44:43 
+landmark: 0.0728, eye_distance: 0.0696, lip_distance: 0.0038, photometric_texture: 0.3243, shape_reg: 0.0012, expression_reg: 0.0016, tex_reg: 0.0002, light_reg: 0.0000, all_loss: 0.4735, 
+2026-04-04 12:44:44.064 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 0, Iter: 60/100, Time: 2026-04-04-12:44:44 
+landmark: 0.0680, eye_distance: 0.0685, lip_distance: 0.0043, photometric_texture: 0.3141, shape_reg: 0.0011, expression_reg: 0.0013, tex_reg: 0.0003, light_reg: 0.0000, all_loss: 0.4575, 
+2026-04-04 12:44:45.183 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 0, Iter: 80/100, Time: 2026-04-04-12:44:45 
+landmark: 0.0706, eye_distance: 0.0698, lip_distance: 0.0048, photometric_texture: 0.3819, shape_reg: 0.0009, expression_reg: 0.0021, tex_reg: 0.0003, light_reg: 0.0000, all_loss: 0.5304, 
+2026-04-04 12:44:46.375 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 1, Iter: 0/100, Time: 2026-04-04-12:44:46 
+landmark: 0.0642, eye_distance: 0.0676, lip_distance: 0.0039, photometric_texture: 0.2742, shape_reg: 0.0009, expression_reg: 0.0014, tex_reg: 0.0002, light_reg: 0.0000, all_loss: 0.4124, 
+2026-04-04 12:44:47.508 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 1, Iter: 20/100, Time: 2026-04-04-12:44:47 
+landmark: 0.0594, eye_distance: 0.0670, lip_distance: 0.0041, photometric_texture: 0.3903, shape_reg: 0.0009, expression_reg: 0.0007, tex_reg: 0.0002, light_reg: 0.0000, all_loss: 0.5227, 
+2026-04-04 12:44:48.568 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 1, Iter: 40/100, Time: 2026-04-04-12:44:48 
+landmark: 0.0622, eye_distance: 0.0619, lip_distance: 0.0037, photometric_texture: 0.2436, shape_reg: 0.0014, expression_reg: 0.0028, tex_reg: 0.0006, light_reg: 0.0001, all_loss: 0.3763, 
+2026-04-04 12:44:49.700 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 1, Iter: 60/100, Time: 2026-04-04-12:44:49 
+landmark: 0.0575, eye_distance: 0.0644, lip_distance: 0.0062, photometric_texture: 0.3648, shape_reg: 0.0012, expression_reg: 0.0017, tex_reg: 0.0003, light_reg: 0.0000, all_loss: 0.4961, 
+2026-04-04 12:44:50.749 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 1, Iter: 80/100, Time: 2026-04-04-12:44:50 
+landmark: 0.0526, eye_distance: 0.0600, lip_distance: 0.0048, photometric_texture: 0.4196, shape_reg: 0.0013, expression_reg: 0.0029, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.5415, 
+2026-04-04 12:44:51.901 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 2, Iter: 0/100, Time: 2026-04-04-12:44:51 
+landmark: 0.0531, eye_distance: 0.0630, lip_distance: 0.0048, photometric_texture: 0.2939, shape_reg: 0.0011, expression_reg: 0.0018, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.4180, 
+2026-04-04 12:44:53.460 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 2, Iter: 20/100, Time: 2026-04-04-12:44:53 
+landmark: 0.0542, eye_distance: 0.0578, lip_distance: 0.0048, photometric_texture: 0.3521, shape_reg: 0.0015, expression_reg: 0.0048, tex_reg: 0.0003, light_reg: 0.0001, all_loss: 0.4755, 
+2026-04-04 12:44:54.579 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 2, Iter: 40/100, Time: 2026-04-04-12:44:54 
+landmark: 0.0530, eye_distance: 0.0524, lip_distance: 0.0039, photometric_texture: 0.4773, shape_reg: 0.0026, expression_reg: 0.0084, tex_reg: 0.0005, light_reg: 0.0002, all_loss: 0.5983, 
+2026-04-04 12:44:55.669 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 2, Iter: 60/100, Time: 2026-04-04-12:44:55 
+landmark: 0.0503, eye_distance: 0.0557, lip_distance: 0.0043, photometric_texture: 0.4193, shape_reg: 0.0022, expression_reg: 0.0049, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.5370, 
+2026-04-04 12:44:56.765 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 2, Iter: 80/100, Time: 2026-04-04-12:44:56 
+landmark: 0.0505, eye_distance: 0.0593, lip_distance: 0.0044, photometric_texture: 0.4617, shape_reg: 0.0016, expression_reg: 0.0024, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.5802, 
+2026-04-04 12:44:57.973 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 3, Iter: 0/100, Time: 2026-04-04-12:44:57 
+landmark: 0.0496, eye_distance: 0.0550, lip_distance: 0.0035, photometric_texture: 0.4542, shape_reg: 0.0016, expression_reg: 0.0046, tex_reg: 0.0004, light_reg: 0.0002, all_loss: 0.5691, 
+2026-04-04 12:44:59.004 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 3, Iter: 20/100, Time: 2026-04-04-12:44:59 
+landmark: 0.0475, eye_distance: 0.0528, lip_distance: 0.0023, photometric_texture: 0.4158, shape_reg: 0.0021, expression_reg: 0.0062, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.5271, 
+2026-04-04 12:45:00.074 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 3, Iter: 40/100, Time: 2026-04-04-12:45:00 
+landmark: 0.0506, eye_distance: 0.0543, lip_distance: 0.0026, photometric_texture: 0.4886, shape_reg: 0.0016, expression_reg: 0.0042, tex_reg: 0.0001, light_reg: 0.0001, all_loss: 0.6023, 
+2026-04-04 12:45:01.124 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 3, Iter: 60/100, Time: 2026-04-04-12:45:01 
+landmark: 0.0519, eye_distance: 0.0530, lip_distance: 0.0029, photometric_texture: 0.5127, shape_reg: 0.0018, expression_reg: 0.0059, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.6285, 
+2026-04-04 12:45:02.078 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 3, Iter: 80/100, Time: 2026-04-04-12:45:02 
+landmark: 0.0477, eye_distance: 0.0525, lip_distance: 0.0018, photometric_texture: 0.4146, shape_reg: 0.0018, expression_reg: 0.0057, tex_reg: 0.0002, light_reg: 0.0002, all_loss: 0.5244, 
+2026-04-04 12:45:03.375 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 4, Iter: 0/100, Time: 2026-04-04-12:45:03 
+landmark: 0.0493, eye_distance: 0.0533, lip_distance: 0.0019, photometric_texture: 0.4783, shape_reg: 0.0016, expression_reg: 0.0051, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.5899, 
+2026-04-04 12:45:04.875 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 4, Iter: 20/100, Time: 2026-04-04-12:45:04 
+landmark: 0.0468, eye_distance: 0.0542, lip_distance: 0.0018, photometric_texture: 0.4419, shape_reg: 0.0015, expression_reg: 0.0048, tex_reg: 0.0001, light_reg: 0.0001, all_loss: 0.5513, 
+2026-04-04 12:45:05.859 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 4, Iter: 40/100, Time: 2026-04-04-12:45:05 
+landmark: 0.0459, eye_distance: 0.0520, lip_distance: 0.0017, photometric_texture: 0.5383, shape_reg: 0.0015, expression_reg: 0.0064, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.6461, 
+2026-04-04 12:45:06.897 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 4, Iter: 60/100, Time: 2026-04-04-12:45:06 
+landmark: 0.0458, eye_distance: 0.0559, lip_distance: 0.0021, photometric_texture: 0.5106, shape_reg: 0.0014, expression_reg: 0.0034, tex_reg: 0.0001, light_reg: 0.0001, all_loss: 0.6195, 
+2026-04-04 12:45:07.946 | INFO     | decalib.trainer:fit:406 - ExpName: deca_facescape_finetune_model_a 
+Epoch: 4, Iter: 80/100, Time: 2026-04-04-12:45:07 
+landmark: 0.0479, eye_distance: 0.0513, lip_distance: 0.0017, photometric_texture: 0.4821, shape_reg: 0.0017, expression_reg: 0.0055, tex_reg: 0.0002, light_reg: 0.0001, all_loss: 0.5903, 

@@ -17,9 +17,28 @@ import torch
 import torch.nn as nn
 import numpy as np
 import pickle
+import inspect
+import builtins
 import torch.nn.functional as F
 
 from .lbs import lbs, batch_rodrigues, vertices2landmarks, rot_mat_to_euler
+
+# chumpy (used by FLAME pickles) relies on inspect.getargspec, removed in newer Python.
+if not hasattr(inspect, 'getargspec'):
+    inspect.getargspec = inspect.getfullargspec
+
+# NumPy 2.x removed legacy aliases still imported by chumpy.
+for _name, _value in {
+    'bool': builtins.bool,
+    'int': builtins.int,
+    'float': builtins.float,
+    'complex': builtins.complex,
+    'object': builtins.object,
+    'unicode': builtins.str,
+    'str': builtins.str,
+}.items():
+    if not hasattr(np, _name):
+        setattr(np, _name, _value)
 
 def to_tensor(array, dtype=torch.float32):
     if 'torch.tensor' not in str(type(array)):

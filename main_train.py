@@ -31,8 +31,11 @@ def main(cfg):
     from decalib.deca import DECA
     from decalib.trainer import Trainer
     cfg.rasterizer_type = 'pytorch3d'
-    deca = DECA(cfg)
-    trainer = Trainer(model=deca, config=cfg)
+    device = cfg.device
+    if device == 'cuda' and getattr(cfg, 'device_id', '') not in ['', None]:
+        device = f'cuda:{cfg.device_id}'
+    deca = DECA(cfg, device=device)
+    trainer = Trainer(model=deca, config=cfg, device=device)
 
     ## start train
     trainer.fit()

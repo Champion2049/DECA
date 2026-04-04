@@ -14,9 +14,18 @@ from .ethnicity import EthnicityDataset
 from .aflw2000 import AFLW2000
 from .now import NoWDataset
 from .vox import VoxelDataset
+from .facescape_list import FaceScapeListDataset
 
 def build_train(config, is_train=True):
     data_list = []
+    if 'facescape_list' in config.training_data:
+        data_list.append(
+            FaceScapeListDataset(
+                list_path=config.facescape_train_list,
+                K=config.K,
+                isSingle=config.isSingle,
+            )
+        )
     if 'vox2' in config.training_data:
         data_list.append(VoxelDataset(dataname='vox2', K=config.K, image_size=config.image_size, scale=[config.scale_min, config.scale_max], trans_scale=config.trans_scale, isSingle=config.isSingle))
     if 'vggface2' in config.training_data:
@@ -35,12 +44,29 @@ def build_train(config, is_train=True):
 
 def build_val(config, is_train=True):
     data_list = []
+    if 'facescape_list' in config.eval_data:
+        data_list.append(
+            FaceScapeListDataset(
+                list_path=config.facescape_val_list,
+                K=1,
+                isSingle=True,
+            )
+        )
     if 'vggface2' in config.eval_data:
         data_list.append(VGGFace2Dataset(isEval=True, K=config.K, image_size=config.image_size, scale=[config.scale_min, config.scale_max], trans_scale=config.trans_scale, isSingle=config.isSingle))
     if 'now' in config.eval_data:
         data_list.append(NoWDataset())
     if 'aflw2000' in config.eval_data:
         data_list.append(AFLW2000())
+    if len(data_list) == 0:
+        # Keep training runnable even when external eval sets are not prepared.
+        data_list.append(
+            FaceScapeListDataset(
+                list_path=config.facescape_train_list,
+                K=1,
+                isSingle=True,
+            )
+        )
     dataset = ConcatDataset(data_list)
 
     return dataset

@@ -164,6 +164,30 @@ def landmark_loss(predicted_landmarks, landmarks_gt, weight=1.):
     return loss_lmk_2d * weight
 
 
+def landmark_loss_smooth_l1(predicted_landmarks, landmarks_gt, beta=0.05, weight=1.):
+    if torch.is_tensor(landmarks_gt) is not True:
+        real_2d = torch.cat(landmarks_gt).to(predicted_landmarks.device)
+    else:
+        num_lmk = landmarks_gt.shape[1]
+        ones = torch.ones((landmarks_gt.shape[0], num_lmk, 1), device=landmarks_gt.device, dtype=landmarks_gt.dtype)
+        real_2d = torch.cat([landmarks_gt, ones], dim=-1)
+        if real_2d.shape[1] != predicted_landmarks.shape[1]:
+            target = predicted_landmarks.shape[1]
+            if real_2d.shape[1] < target:
+                pad = real_2d[:, -1:, :].repeat(1, target - real_2d.shape[1], 1)
+                real_2d = torch.cat([real_2d, pad], dim=1)
+            else:
+                real_2d = real_2d[:, :target, :]
+        real_2d = real_2d.to(predicted_landmarks.device)
+
+    kp_gt = real_2d.view(-1, 3)
+    kp_pred = predicted_landmarks.contiguous().view(-1, 2)
+    vis = kp_gt[:, 2]
+    k = torch.sum(vis) * 2.0 + 1e-8
+    dif = F.smooth_l1_loss(kp_pred, kp_gt[:, :2], reduction='none', beta=beta).sum(1)
+    return (torch.matmul(dif, vis) / k) * weight
+
+
 def eye_dis(landmarks):
     # left eye:  [38,42], [39,41] - 1
     # right eye: [44,48], [45,47] -1

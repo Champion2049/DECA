@@ -1,0 +1,49 @@
+# v8: continue from v7 full-coverage model for additional stabilization.
+device: "cuda"
+output_dir: "./logs/facescape_compare_model_a_lip_recover_v8_full20k_continue"
+pretrained_modelpath: "./logs/facescape_compare_model_a_lip_recover_v7_full20k/model.tar"
+
+model:
+  use_tex: False
+
+dataset:
+  training_data: ['facescape_list']
+  eval_data: ['facescape_list']
+  facescape_train_list: "../train_list_wsl.txt"
+  facescape_val_list: "../val_list_wsl.txt"
+  facescape_require_landmarks: True
+  hard_case_csv: ""
+  hard_case_boost: 1.0
+  batch_size: 4
+  K: 1
+  isSingle: True
+  num_workers: 4
+  image_size: 224
+
+loss:
+  useSeg: False
+  useWlmk: False
+  lmk: 1.0
+  lmk_type: "smooth_l1"
+  lmk_beta: 0.03
+  eyed: 0.2
+  lipd: 0.25
+  photo: 1.8
+  id: 0.0
+  shape_consistency: True
+  reg_shape: 0.00025
+  reg_exp: 0.00025
+  reg_light: 1.0
+  reg_cam: 0.02
+
+train:
+  resume: False
+  max_epochs: 10
+  max_steps: 3000
+  lr: 0.0000005
+  grad_clip_norm: 0.5
+  log_steps: 100
+  vis_steps: 400
+  checkpoint_steps: 300
+  val_steps: 500
+  eval_steps: 0

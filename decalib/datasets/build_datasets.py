@@ -24,6 +24,7 @@ def build_train(config, is_train=True):
                 list_path=config.facescape_train_list,
                 K=config.K,
                 isSingle=config.isSingle,
+                require_landmarks=bool(getattr(config, 'facescape_require_landmarks', False)),
             )
         )
     if 'vox2' in config.training_data:
@@ -50,6 +51,7 @@ def build_val(config, is_train=True):
                 list_path=config.facescape_val_list,
                 K=1,
                 isSingle=True,
+                require_landmarks=bool(getattr(config, 'facescape_require_landmarks', False)),
             )
         )
     if 'vggface2' in config.eval_data:
@@ -65,6 +67,7 @@ def build_val(config, is_train=True):
                 list_path=config.facescape_train_list,
                 K=1,
                 isSingle=True,
+                require_landmarks=bool(getattr(config, 'facescape_require_landmarks', False)),
             )
         )
     dataset = ConcatDataset(data_list)

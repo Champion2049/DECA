@@ -2,6 +2,7 @@
 '''
 import os, sys
 import numpy as np
+import random
 import yaml
 import torch
 import torch.backends.cudnn as cudnn
@@ -10,9 +11,18 @@ import shutil
 from copy import deepcopy
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
-np.random.seed(0)
+
+
+def set_global_seed(seed):
+    seed = int(seed)
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
 
 def main(cfg):
+    set_global_seed(getattr(cfg.train, 'seed', 0))
     # creat folders 
     os.makedirs(os.path.join(cfg.output_dir, cfg.train.log_dir), exist_ok=True)
     os.makedirs(os.path.join(cfg.output_dir, cfg.train.vis_dir), exist_ok=True)

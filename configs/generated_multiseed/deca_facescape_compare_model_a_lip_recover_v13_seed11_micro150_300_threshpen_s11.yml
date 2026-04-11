@@ -1,0 +1,60 @@
+device: "cuda"
+output_dir: "./logs/facescape_compare_model_a_lip_recover_v13_seed11_micro150_300_threshpen_s11"
+pretrained_modelpath: "./data/deca_model.tar"
+
+model:
+  use_tex: False
+
+dataset:
+  training_data: ['facescape_list']
+  eval_data: ['facescape_list']
+  facescape_train_list: "../train_list_wsl.txt"
+  facescape_val_list: "../val_list_wsl.txt"
+  facescape_require_landmarks: True
+  hard_case_csv: "./logs/hard_cases_v13_from_v10.csv"
+  hard_case_boost: 2.0
+  batch_size: 4
+  K: 1
+  isSingle: True
+  num_workers: 4
+  image_size: 224
+
+loss:
+  useSeg: False
+  useWlmk: False
+  lmk: 1.0
+  lmk_type: "smooth_l1"
+  lmk_beta: 0.03
+  tail_lmk_weight: 0.0
+  tail_lmk_alpha: 0.90
+  tail_thresh_weight: 0.80
+  tail_thresh_value: 0.25
+  eyed: 0.25
+  lipd: 0.30
+  photo: 1.8
+  id: 0.0
+  shape_consistency: True
+  reg_shape: 0.00025
+  reg_exp: 0.00025
+  reg_light: 1.0
+  reg_cam: 0.05
+  teacher_modelpath: "./data/deca_model.tar"
+  teacher_lmk: 0.12
+  teacher_cam: 0.04
+  teacher_code: 0.06
+  teacher_code_beta: 0.02
+  reject_noisy_lmk_threshold: 0.0
+
+train:
+  resume: False
+  head_only: True
+  seed: 11
+  max_epochs: 10
+  max_steps: 300
+  lr: 0.0000015
+  grad_clip_norm: 0.5
+  log_steps: 25
+  vis_steps: 200
+  checkpoint_steps: 25
+  val_steps: 150
+  eval_steps: 0

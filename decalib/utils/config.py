@@ -58,6 +58,9 @@ cfg.dataset.eval_data = ['aflw2000']
 cfg.dataset.test_data = ['']
 cfg.dataset.facescape_train_list = ''
 cfg.dataset.facescape_val_list = ''
+cfg.dataset.facescape_require_landmarks = False
+cfg.dataset.hard_case_csv = ''
+cfg.dataset.hard_case_boost = 1.0
 cfg.dataset.batch_size = 2
 cfg.dataset.K = 4
 cfg.dataset.isSingle = False
@@ -85,12 +88,18 @@ cfg.train.val_steps = 500
 cfg.train.val_vis_dir = 'val_images'
 cfg.train.eval_steps = 5000
 cfg.train.resume = True
+cfg.train.grad_clip_norm = 0.0
+cfg.train.head_only = False
+cfg.train.train_last_n_backbone_stages = 0
+cfg.train.seed = 0
 
 # ---------------------------------------------------------------------------- #
 # Options for Losses
 # ---------------------------------------------------------------------------- #
 cfg.loss = CN()
 cfg.loss.lmk = 1.0
+cfg.loss.lmk_type = 'l1'  # l1 | smooth_l1
+cfg.loss.lmk_beta = 0.05
 cfg.loss.useWlmk = True
 cfg.loss.eyed = 1.0
 cfg.loss.lipd = 0.5
@@ -102,6 +111,11 @@ cfg.loss.reg_shape = 1e-04
 cfg.loss.reg_exp = 1e-04
 cfg.loss.reg_tex = 1e-04
 cfg.loss.reg_light = 1.
+cfg.loss.reg_cam = 0.
+cfg.loss.reg_cam_scale_range = 0.0
+cfg.loss.reg_cam_scale_weight = 0.0
+cfg.loss.reg_cam_trans_max = 0.0
+cfg.loss.reg_cam_trans_weight = 0.0
 cfg.loss.reg_jaw_pose = 0. #1.
 cfg.loss.use_gender_prior = False
 cfg.loss.shape_consistency = True
@@ -113,6 +127,17 @@ cfg.loss.photo_D = 2.
 cfg.loss.reg_sym = 0.005
 cfg.loss.reg_z = 0.005
 cfg.loss.reg_diff = 0.005
+cfg.loss.teacher_modelpath = ''
+cfg.loss.teacher_lmk = 0.0
+cfg.loss.teacher_lmk_beta = 0.05
+cfg.loss.teacher_cam = 0.0
+cfg.loss.teacher_code = 0.0
+cfg.loss.teacher_code_beta = 0.02
+cfg.loss.reject_noisy_lmk_threshold = 0.0
+cfg.loss.tail_lmk_weight = 0.0
+cfg.loss.tail_lmk_alpha = 0.90
+cfg.loss.tail_thresh_weight = 0.0
+cfg.loss.tail_thresh_value = 0.0
 
 
 def get_cfg_defaults():

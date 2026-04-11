@@ -14,19 +14,42 @@ class FaceScapeListDataset(Dataset):
     Landmark files are optional; if absent, a stable 68-point template is used.
     """
 
-    def __init__(self, list_path, K=1, isSingle=True):
+    def __init__(self, list_path, K=1, isSingle=True, require_landmarks=False):
         self.K = 1 if isSingle else K
         self.isSingle = isSingle
+        self.require_landmarks = bool(require_landmarks)
         self.image_paths = self._read_list(list_path)
+        if self.require_landmarks:
+            self.image_paths = self._filter_paths_with_landmarks(self.image_paths)
         if len(self.image_paths) == 0:
             raise ValueError(f"No images found in list file: {list_path}")
 
         # Group images so K-view sampling can be done from same subject/expression bucket.
+        # For single-image training (K=1), use every image directly to avoid collapsing
+        # a large dataset into only expression buckets.
         grouped = defaultdict(list)
         for path in self.image_paths:
             grouped[self._group_key(path)].append(path)
-        self.groups = [v for v in grouped.values() if len(v) > 0]
+        if self.isSingle and self.K == 1:
+            self.groups = [[p] for p in self.image_paths]
+        else:
+            self.groups = [v for v in grouped.values() if len(v) > 0]
         self.template_68 = self._build_template_68()
+
+    def _filter_paths_with_landmarks(self, image_paths):
+        valid = []
+        for image_path in image_paths:
+            lmk_path = self._landmark_path(image_path)
+            if not os.path.isfile(lmk_path):
+                continue
+            try:
+                lmk = np.load(lmk_path)
+            except Exception:
+                continue
+            if lmk.ndim != 2 or lmk.shape[0] < 68 or lmk.shape[1] < 2:
+                continue
+            valid.append(image_path)
+        return valid
 
     def _read_list(self, list_path):
         if not os.path.isfile(list_path):
@@ -119,8 +142,10 @@ class FaceScapeListDataset(Dataset):
         images_list = []
         kpt_list = []
         mask_list = []
+        selected_paths = []
 
         for image_path in selected:
+            selected_paths.append(str(image_path))
             image = imread(image_path).astype(np.float32)
             if image.ndim == 2:
                 image = np.repeat(image[:, :, None], 3, axis=2)
@@ -150,9 +175,13 @@ class FaceScapeListDataset(Dataset):
             images_array = images_array.squeeze(0)
             kpt_array = kpt_array.squeeze(0)
             mask_array = mask_array.squeeze(0)
+            image_path_out = selected_paths[0]
+        else:
+            image_path_out = selected_paths
 
         return {
             "image": images_array,
             "landmark": kpt_array,
             "mask": mask_array,
+            "image_path": image_path_out,
         }

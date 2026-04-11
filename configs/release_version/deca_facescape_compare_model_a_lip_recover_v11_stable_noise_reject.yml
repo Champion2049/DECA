@@ -1,0 +1,54 @@
+# v11: stability-first retrain with teacher anchoring + stricter noisy-label rejection.
+device: "cuda"
+output_dir: "./logs/facescape_compare_model_a_lip_recover_v11_stable_noise_reject"
+pretrained_modelpath: "./data/deca_model.tar"
+
+model:
+  use_tex: False
+
+dataset:
+  training_data: ['facescape_list']
+  eval_data: ['facescape_list']
+  facescape_train_list: "../train_list_wsl.txt"
+  facescape_val_list: "../val_list_wsl.txt"
+  facescape_require_landmarks: True
+  hard_case_csv: ""
+  hard_case_boost: 1.0
+  batch_size: 4
+  K: 1
+  isSingle: True
+  num_workers: 4
+  image_size: 224
+
+loss:
+  useSeg: False
+  useWlmk: False
+  lmk: 1.0
+  lmk_type: "smooth_l1"
+  lmk_beta: 0.03
+  eyed: 0.2
+  lipd: 0.25
+  photo: 1.8
+  id: 0.0
+  shape_consistency: True
+  reg_shape: 0.00025
+  reg_exp: 0.00025
+  reg_light: 1.0
+  reg_cam: 0.03
+  teacher_modelpath: "./data/deca_model.tar"
+  teacher_lmk: 0.20
+  teacher_cam: 0.05
+  # Keep only plausible GT landmarks based on baseline-vs-GT mismatch.
+  reject_noisy_lmk_threshold: 0.35
+
+train:
+  resume: False
+  max_epochs: 10
+  max_steps: 900
+  lr: 0.0000005
+  grad_clip_norm: 0.5
+  log_steps: 50
+  vis_steps: 300
+  checkpoint_steps: 200
+  val_steps: 500
+  eval_steps: 0

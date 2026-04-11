@@ -1,0 +1,46 @@
+# Stability-focused fine-tuning to reduce catastrophic landmark outliers.
+device: "cuda"
+output_dir: "./logs/facescape_compare_model_a_stable"
+pretrained_modelpath: "./logs/facescape_compare_model_a_robust/model.tar"
+
+model:
+  use_tex: False
+
+dataset:
+  training_data: ['facescape_list']
+  eval_data: ['facescape_list']
+  facescape_train_list: "../train_list_wsl.txt"
+  facescape_val_list: "../val_list_wsl.txt"
+  batch_size: 4
+  K: 1
+  isSingle: True
+  num_workers: 4
+  image_size: 224
+
+loss:
+  useSeg: False
+  useWlmk: False
+  lmk: 1.0
+  lmk_type: "smooth_l1"
+  lmk_beta: 0.03
+  eyed: 0.2
+  lipd: 0.1
+  photo: 1.6
+  id: 0.0
+  shape_consistency: True
+  reg_shape: 0.00025
+  reg_exp: 0.00025
+  reg_light: 1.0
+  reg_cam: 0.1
+
+train:
+  resume: False
+  max_epochs: 5
+  max_steps: 50000
+  lr: 0.00001
+  grad_clip_norm: 1.0
+  log_steps: 20
+  vis_steps: 200
+  checkpoint_steps: 100
+  val_steps: 500
+  eval_steps: 1000

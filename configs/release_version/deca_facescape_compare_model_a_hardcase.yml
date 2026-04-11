@@ -1,0 +1,44 @@
+# Hard-case mining fine-tuning: oversample failure cases from comparison CSV.
+device: "cuda"
+output_dir: "./logs/facescape_compare_model_a_hardcase"
+pretrained_modelpath: "./data/deca_model.tar"
+
+model:
+  use_tex: False
+
+dataset:
+  training_data: ['facescape_list']
+  eval_data: ['facescape_list']
+  facescape_train_list: "../train_list_wsl.txt"
+  facescape_val_list: "../val_list_wsl.txt"
+  hard_case_csv: "./logs/model_compare_debug/worst_failures.csv"
+  hard_case_boost: 8.0
+  batch_size: 4
+  K: 1
+  isSingle: True
+  num_workers: 4
+  image_size: 224
+
+loss:
+  useSeg: False
+  useWlmk: False
+  lmk: 1.0
+  eyed: 0.2
+  lipd: 0.1
+  photo: 1.6
+  id: 0.0
+  shape_consistency: True
+  reg_shape: 0.0002
+  reg_exp: 0.0002
+  reg_light: 1.0
+
+train:
+  resume: False
+  max_epochs: 5
+  max_steps: 50000
+  lr: 0.000015
+  log_steps: 20
+  vis_steps: 200
+  checkpoint_steps: 100
+  val_steps: 500
+  eval_steps: 1000

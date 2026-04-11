@@ -42,6 +42,7 @@ __pycache__
 
 ## deca data
 *results*
+logs/
 # *_vis.jpg
 ## internal use
 cluster_scripts

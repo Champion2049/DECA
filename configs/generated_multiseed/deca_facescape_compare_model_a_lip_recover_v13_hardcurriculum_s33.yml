@@ -1,0 +1,54 @@
+device: cuda
+output_dir: ./logs/facescape_compare_model_a_lip_recover_v13_hardcurriculum_s33
+pretrained_modelpath: ./data/deca_model.tar
+model:
+  use_tex: false
+dataset:
+  training_data:
+  - facescape_list
+  eval_data:
+  - facescape_list
+  facescape_train_list: ../train_list_wsl.txt
+  facescape_val_list: ../val_list_wsl.txt
+  facescape_require_landmarks: true
+  hard_case_csv: ./logs/hard_cases_v13_from_v10.csv
+  hard_case_boost: 2.0
+  batch_size: 4
+  K: 1
+  isSingle: true
+  num_workers: 4
+  image_size: 224
+loss:
+  useSeg: false
+  useWlmk: false
+  lmk: 1.0
+  lmk_type: smooth_l1
+  lmk_beta: 0.03
+  eyed: 0.25
+  lipd: 0.3
+  photo: 1.8
+  id: 0.0
+  shape_consistency: true
+  reg_shape: 0.00025
+  reg_exp: 0.00025
+  reg_light: 1.0
+  reg_cam: 0.05
+  teacher_modelpath: ./data/deca_model.tar
+  teacher_lmk: 0.12
+  teacher_cam: 0.04
+  teacher_code: 0.06
+  teacher_code_beta: 0.02
+  reject_noisy_lmk_threshold: 0.0
+train:
+  resume: false
+  head_only: true
+  max_epochs: 10
+  max_steps: 1400
+  lr: 1.5e-06
+  grad_clip_norm: 0.5
+  log_steps: 50
+  vis_steps: 300
+  checkpoint_steps: 200
+  val_steps: 500
+  eval_steps: 0
+  seed: 33

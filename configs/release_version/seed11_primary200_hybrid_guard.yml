@@ -1,0 +1,8 @@
+policy:
+  name: "seed11_primary200_safety_guard"
+  primary_checkpoint: "./logs/facescape_compare_model_a_lip_recover_v13_seed11_micro150_300_s11/models/00000200.tar"
+  fallback_checkpoint: "./data/deca_model.tar"
+  metric: "lmk_abs_max"
+  threshold: 0.6
+  action_if_exceeds_threshold: "use_fallback"
+  note: "Primary remains default. Fallback guard is enabled for safety-critical paths."

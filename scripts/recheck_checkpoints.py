@@ -16,12 +16,17 @@ def parse_report(report_path: Path):
         "hybrid_best_threshold": "",
         "hybrid_best_trimmed": "",
         "hybrid_best_fail_rate": "",
+        "selective_fallback": "",
+        "selective_trimmed": "",
+        "selective_fail_rate": "",
+        "selective_mean": "",
     }
 
     if not report_path.exists():
         return metrics
 
     hybrid_re = re.compile(r"HybridBest,\s*thr=([0-9.]+).*lmk_trimmed=([0-9.]+).*fail_rate=([0-9.]+)")
+    selective_re = re.compile(r"SelectiveStats,\s*fallback=([0-9]+).*lmk_mean=([0-9.]+).*lmk_trimmed=([0-9.]+).*fail_rate=([0-9.]+)")
     for raw in report_path.read_text(encoding="utf-8", errors="replace").splitlines():
         line = raw.strip()
         if line.startswith("LandmarkErrorMean"):
@@ -45,6 +50,12 @@ def parse_report(report_path: Path):
                 metrics["hybrid_best_threshold"] = m.group(1)
                 metrics["hybrid_best_trimmed"] = m.group(2)
                 metrics["hybrid_best_fail_rate"] = m.group(3)
+            m2 = selective_re.search(line)
+            if m2:
+                metrics["selective_fallback"] = m2.group(1)
+                metrics["selective_mean"] = m2.group(2)
+                metrics["selective_trimmed"] = m2.group(3)
+                metrics["selective_fail_rate"] = m2.group(4)
 
     return metrics
 
@@ -58,6 +69,9 @@ def main():
     parser.add_argument("--max_samples", type=int, default=5000)
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--hybrid_threshold", type=float, default=0.6)
+    parser.add_argument("--hybrid_selective_abs1", type=float, default=0.90)
+    parser.add_argument("--hybrid_selective_cam", type=float, default=10.0)
+    parser.add_argument("--hybrid_selective_abs2", type=float, default=0.40)
     parser.add_argument("--out_csv", default="./logs/recheck_checkpoints.csv")
     parser.add_argument("--tag", default="seed11_micro_recheck")
     args = parser.parse_args()
@@ -88,6 +102,12 @@ def main():
             "lmk_abs_max",
             "--hybrid_auto_threshold",
             str(args.hybrid_threshold),
+            "--hybrid_selective_abs1",
+            str(args.hybrid_selective_abs1),
+            "--hybrid_selective_cam",
+            str(args.hybrid_selective_cam),
+            "--hybrid_selective_abs2",
+            str(args.hybrid_selective_abs2),
             "--out",
             str(report_path),
             "--debug_dir",
@@ -118,6 +138,10 @@ def main():
         "hybrid_best_threshold",
         "hybrid_best_trimmed",
         "hybrid_best_fail_rate",
+        "selective_fallback",
+        "selective_mean",
+        "selective_trimmed",
+        "selective_fail_rate",
         "report_path",
         "debug_dir",
     ]
@@ -141,6 +165,8 @@ def main():
             f"fail={best['finetuned_fail_rate']}",
             f"hybrid_trimmed={best['hybrid_best_trimmed']}",
             f"hybrid_fail={best['hybrid_best_fail_rate']}",
+            f"selective_trimmed={best['selective_trimmed']}",
+            f"selective_fail={best['selective_fail_rate']}",
         )
 
 

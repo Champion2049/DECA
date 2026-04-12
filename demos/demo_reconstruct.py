@@ -25,6 +25,7 @@ import torch
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from decalib.deca import DECA
 from decalib.datasets import datasets 
+from decalib.models.residual_code_head import ResidualCodeHead, build_head_input, apply_residual_correction
 from decalib.utils import util
 from decalib.utils.config import cfg as deca_cfg
 from decalib.utils.tensor_cropper import transform_points
@@ -40,16 +41,29 @@ def main(args):
     testdata = datasets.TestData(args.inputpath, iscrop=args.iscrop, face_detector=args.detector, sample_step=args.sample_step)
 
     # run DECA
+    if args.modelpath:
+        deca_cfg.pretrained_modelpath = args.modelpath
     deca_cfg.model.use_tex = args.useTex
     deca_cfg.rasterizer_type = args.rasterizer_type
     deca_cfg.model.extract_tex = args.extractTex
     deca = DECA(config = deca_cfg, device=device)
+
+    residual_head = None
+    if args.residual_head:
+        ckpt = torch.load(args.residual_head, map_location=torch.device(device))
+        residual_head = ResidualCodeHead(hidden=int(ckpt.get('hidden', 128))).to(device)
+        residual_head.load_state_dict(ckpt['state_dict'])
+        residual_head.eval()
+
     # for i in range(len(testdata)):
     for i in tqdm(range(len(testdata))):
         name = testdata[i]['imagename']
         images = testdata[i]['image'].to(device)[None,...]
         with torch.no_grad():
             codedict = deca.encode(images)
+            if residual_head is not None:
+                res = residual_head(build_head_input(codedict))
+                codedict = apply_residual_correction(codedict, res)
             opdict, visdict = deca.decode(codedict) #tensor
             if args.render_orig:
                 tform = testdata[i]['tform'][None, ...]
@@ -97,6 +111,10 @@ if __name__ == '__main__':
                         help='path to the output directory, where results(obj, txt files) will be stored.')
     parser.add_argument('--device', default='cuda', type=str,
                         help='set device, cpu for using cpu' )
+    parser.add_argument('--modelpath', default='', type=str,
+                        help='checkpoint path to run (defaults to config pretrained model when empty)')
+    parser.add_argument('--residual_head', default='', type=str,
+                        help='optional residual head checkpoint (.pt) for code correction')
     # process test images
     parser.add_argument('--iscrop', default=True, type=lambda x: x.lower() in ['true', '1'],
                         help='whether to crop input image, set false only when the test image are well cropped' )

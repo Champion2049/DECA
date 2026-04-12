@@ -1,0 +1,22 @@
+device: "cuda"
+policy_name: "visual_first_residual_v2"
+
+baseline_modelpath: "./data/deca_model.tar"
+residual_head_modelpath: "./logs/residual_head_v2_region/residual_head_best.pt"
+
+dataset:
+  eval_data: ['facescape_list']
+  facescape_val_list: "../val_list_wsl.txt"
+  facescape_require_landmarks: True
+  image_size: 224
+
+selective_gate:
+  mode: "visual-first"
+  abs1: 0.90
+  cam: 10.0
+  abs2: 0.40
+
+notes:
+  compare_summary_default_gate: "./logs/residual_head_v2_region/compare_summary_2k_defaultgate.json"
+  gate_sweep_strict: "./logs/residual_head_v2_region/gate_sweep_strict.json"
+  compare_summary_swept_gate: "./logs/residual_head_v2_region/compare_summary_2k_sweptgate.json"

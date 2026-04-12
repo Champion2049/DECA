@@ -333,7 +333,7 @@ Automatic hybrid-render mode:
 2) Test with one given picture (example: image02673)
 
 ```bash
-echo /mnt/c/Users/Chirayu/Documents/GitHub/2D-to-3D-image-reconstruction/TestSamples/examples/image02673.png > ../single_image_test_wsl.txt
+echo /mnt/c/Users/your_path_here/2D-to-3D-image-reconstruction/TestSamples/examples/image02673.png > ../single_image_test_wsl.txt
 
 python scripts/compare_models.py \
   --baseline ./data/deca_model.tar \
@@ -412,20 +412,6 @@ After training, run `scripts/compare_models.py` again to verify failure-rate red
 ## Related works:  
 * for better emotion prediction: [EMOCA](https://github.com/radekd91/emoca)  
 * for better skin estimation: [TRUST](https://github.com/HavenFeng/TRUST)
-
-## Citation
-If you find our work useful to your research, please consider citing:
-```
-@inproceedings{DECA:Siggraph2021,
-  title={Learning an Animatable Detailed {3D} Face Model from In-The-Wild Images},
-  author={Feng, Yao and Feng, Haiwen and Black, Michael J. and Bolkart, Timo},
-  journal = {ACM Transactions on Graphics, (Proc. SIGGRAPH)}, 
-  volume = {40}, 
-  number = {8}, 
-  year = {2021}, 
-  url = {https://doi.org/10.1145/3450626.3459936} 
-}
-```
 
 <!-- ## Notes
 1. Training code will also be released in the future. -->

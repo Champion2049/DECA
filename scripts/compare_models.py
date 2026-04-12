@@ -121,8 +121,14 @@ def main():
     parser.add_argument("--warmup", default=5, type=int)
     parser.add_argument("--hybrid_cam_thresholds", default="", type=str,
                         help="Comma-separated camera instability thresholds for baseline fallback, e.g. '0.6,0.8,1.0'")
-    parser.add_argument("--hybrid_metric", default="cam_score", type=str,
+    parser.add_argument("--hybrid_metric", default="lmk_abs_max", type=str,
                         help="Metric used for fallback thresholding: cam_score or lmk_abs_max")
+    parser.add_argument("--hybrid_selective_abs1", default=0.90, type=float,
+                        help="Selective gate mode-1 threshold: fallback when finetuned_lmk_abs_max > abs1.")
+    parser.add_argument("--hybrid_selective_cam", default=10.0, type=float,
+                        help="Selective gate mode-2 camera threshold: finetuned_cam_score > cam.")
+    parser.add_argument("--hybrid_selective_abs2", default=0.40, type=float,
+                        help="Selective gate mode-2 abs threshold: with cam gate, fallback when finetuned_lmk_abs_max > abs2.")
     args = parser.parse_args()
 
     if not os.path.isfile(args.baseline):
@@ -238,6 +244,42 @@ def main():
     def use_hybrid_base(row):
         return row[metric_key] > hybrid_threshold
 
+    selective_enabled = (
+        args.hybrid_selective_abs1 >= 0.0
+        and args.hybrid_selective_cam >= 0.0
+        and args.hybrid_selective_abs2 >= 0.0
+    )
+
+    selective_fallback_count = 0
+    selective_stats = None
+    if selective_enabled:
+        s_lmk = []
+        s_photo = []
+        s_runtime = []
+        for r in rows:
+            use_base_sel = (
+                (r["finetuned_lmk_abs_max"] > float(args.hybrid_selective_abs1))
+                or (
+                    r["finetuned_cam_score"] > float(args.hybrid_selective_cam)
+                    and r["finetuned_lmk_abs_max"] > float(args.hybrid_selective_abs2)
+                )
+            )
+            r["hybrid_selective_fallback"] = int(use_base_sel)
+            if use_base_sel:
+                selective_fallback_count += 1
+                s_lmk.append(r["baseline_lmk_err"])
+                if np.isfinite(r["baseline_photo_l1"]):
+                    s_photo.append(r["baseline_photo_l1"])
+                if np.isfinite(r["baseline_runtime_ms"]):
+                    s_runtime.append(r["baseline_runtime_ms"])
+            else:
+                s_lmk.append(r["finetuned_lmk_err"])
+                if np.isfinite(r["finetuned_photo_l1"]):
+                    s_photo.append(r["finetuned_photo_l1"])
+                if np.isfinite(r["finetuned_runtime_ms"]):
+                    s_runtime.append(r["finetuned_runtime_ms"])
+        selective_stats = _stats(s_lmk, s_photo, s_runtime, args.failure_threshold)
+
     lines = []
     lines.append("DECA Model Comparison Report")
     lines.append(f"Samples: {total}")
@@ -287,11 +329,14 @@ def main():
                 "finetuned_runtime_ms",
                 "landmark_target_source",
                 "is_failure",
+                "hybrid_selective_fallback",
             ],
         )
         writer.writeheader()
         for row in rows:
-            writer.writerow({k: row[k] for k in writer.fieldnames})
+            out_row = dict(row)
+            out_row.setdefault("hybrid_selective_fallback", 0)
+            writer.writerow({k: out_row[k] for k in writer.fieldnames})
 
     real_rows = [r for r in rows if r["landmark_target_source"] == "real_npy"]
     template_rows = [r for r in rows if r["landmark_target_source"] == "template_fallback"]
@@ -482,6 +527,16 @@ def main():
             lines.append(
                 f"HybridBest, thr={thr:.3f}, fallback={fallback_count}, lmk_mean={h_stats['lmk_mean']:.6f}, lmk_trimmed={h_stats['lmk_trimmed_mean']:.6f}, lmk_median={h_stats['lmk_median']:.6f}, lmk_p90={h_stats['lmk_p90']:.6f}, fail_rate={h_stats['lmk_failure_rate']:.6f}, runtime_ms={h_stats['runtime_ms_mean']:.3f}"
             )
+
+    if selective_enabled and selective_stats is not None:
+        lines.append("")
+        lines.append("HybridSelectiveClusterGate")
+        lines.append(
+            f"SelectivePolicy, abs1={args.hybrid_selective_abs1:.3f}, cam={args.hybrid_selective_cam:.3f}, abs2={args.hybrid_selective_abs2:.3f}"
+        )
+        lines.append(
+            f"SelectiveStats, fallback={selective_fallback_count}, lmk_mean={selective_stats['lmk_mean']:.6f}, lmk_trimmed={selective_stats['lmk_trimmed_mean']:.6f}, lmk_median={selective_stats['lmk_median']:.6f}, lmk_p90={selective_stats['lmk_p90']:.6f}, fail_rate={selective_stats['lmk_failure_rate']:.6f}, runtime_ms={selective_stats['runtime_ms_mean']:.3f}"
+        )
 
     if len(real_rows) > 0:
         lines.append("")

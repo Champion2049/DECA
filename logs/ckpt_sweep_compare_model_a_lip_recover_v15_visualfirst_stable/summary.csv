@@ -1,0 +1,12 @@
+checkpoint,ckpt_name,return_code,baseline_mean,finetuned_mean,baseline_trimmed,finetuned_trimmed,baseline_fail_rate,finetuned_fail_rate
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000025.tar,00000025,0,0.133035,6.821866,0.103734,0.332962,0.0,0.078
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000050.tar,00000050,0,0.133034,2.205725,0.103733,0.161155,0.0,0.041
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000075.tar,00000075,0,0.133034,8.43701,0.103733,0.433979,0.0,0.084
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000100.tar,00000100,0,0.133034,3.839531,0.103734,0.184225,0.0,0.053
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000125.tar,00000125,0,0.133033,5.857614,0.103733,0.305019,0.0,0.074
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000150.tar,00000150,0,0.133033,28.693888,0.103732,2.739518,0.0,0.153
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000175.tar,00000175,0,0.133033,4.110955,0.103733,0.223407,0.0,0.067
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000200.tar,00000200,0,0.133033,17.818089,0.103733,1.048419,0.0,0.103
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000225.tar,00000225,0,0.133034,1.977691,0.103735,0.154409,0.0,0.04
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000250.tar,00000250,0,0.133034,1.938525,0.103735,0.153395,0.0,0.038
+./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000275.tar,00000275,0,0.133034,5.188185,0.103734,0.250182,0.0,0.074

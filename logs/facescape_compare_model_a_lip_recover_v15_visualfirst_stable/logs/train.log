@@ -1,0 +1,38 @@
+2026-04-12 15:08:55.708 | INFO     | decalib.trainer:prepare_data:593 - ---- training data numbers: 
+2026-04-12 15:09:13.005 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 0/4794, Time: 2026-04-12-15:09:12 
+landmark: 0.0588, eye_distance: 0.0033, lip_distance: 0.0175, teacher_landmark: 0.0002, teacher_cam: 0.0004, teacher_code: 0.0028, photometric_texture: 0.3328, shape_reg: 0.0051, expression_reg: 0.0097, tex_reg: 0.0003, light_reg: 0.0000, cam_reg: 5.4292, all_loss: 5.8601, 
+2026-04-12 15:09:17.596 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 25/4794, Time: 2026-04-12-15:09:17 
+landmark: 0.0352, eye_distance: 0.0027, lip_distance: 0.0042, teacher_landmark: 0.0005, teacher_cam: 0.0003, teacher_code: 0.0035, photometric_texture: 0.3422, shape_reg: 0.0059, expression_reg: 0.0122, tex_reg: 0.0002, light_reg: 0.0000, cam_reg: 5.4478, all_loss: 5.8546, 
+2026-04-12 15:09:21.098 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 50/4794, Time: 2026-04-12-15:09:21 
+landmark: 0.0368, eye_distance: 0.0033, lip_distance: 0.0061, teacher_landmark: 0.0004, teacher_cam: 0.0007, teacher_code: 0.0025, photometric_texture: 0.3836, shape_reg: 0.0055, expression_reg: 0.0125, tex_reg: 0.0006, light_reg: 0.0000, cam_reg: 5.7154, all_loss: 6.1674, 
+2026-04-12 15:09:24.480 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 75/4794, Time: 2026-04-12-15:09:24 
+landmark: 0.0306, eye_distance: 0.0033, lip_distance: 0.0038, teacher_landmark: 0.0001, teacher_cam: 0.0003, teacher_code: 0.0026, photometric_texture: 0.4789, shape_reg: 0.0036, expression_reg: 0.0070, tex_reg: 0.0004, light_reg: 0.0000, cam_reg: 6.1437, all_loss: 6.6742, 
+2026-04-12 15:09:28.018 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 100/4794, Time: 2026-04-12-15:09:28 
+landmark: 0.0593, eye_distance: 0.0029, lip_distance: 0.0059, teacher_landmark: 0.0003, teacher_cam: 0.0003, teacher_code: 0.0029, photometric_texture: 0.3667, shape_reg: 0.0040, expression_reg: 0.0073, tex_reg: 0.0002, light_reg: 0.0000, cam_reg: 5.0213, all_loss: 5.4710, 
+2026-04-12 15:09:31.560 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 125/4794, Time: 2026-04-12-15:09:31 
+landmark: 0.1655, eye_distance: 0.0030, lip_distance: 0.0047, teacher_landmark: 0.0067, teacher_cam: 0.0011, teacher_code: 0.0048, photometric_texture: 0.4144, shape_reg: 0.0042, expression_reg: 0.0099, tex_reg: 0.0003, light_reg: 0.0000, cam_reg: 5.0602, all_loss: 5.6749, 
+2026-04-12 15:09:34.957 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 150/4794, Time: 2026-04-12-15:09:34 
+landmark: 0.0642, eye_distance: 0.0029, lip_distance: 0.0057, teacher_landmark: 0.0005, teacher_cam: 0.0007, teacher_code: 0.0026, photometric_texture: 0.3787, shape_reg: 0.0045, expression_reg: 0.0150, tex_reg: 0.0005, light_reg: 0.0000, cam_reg: 5.1351, all_loss: 5.6102, 
+2026-04-12 15:09:39.119 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 175/4794, Time: 2026-04-12-15:09:39 
+landmark: 0.0351, eye_distance: 0.0027, lip_distance: 0.0091, teacher_landmark: 0.0005, teacher_cam: 0.0006, teacher_code: 0.0035, photometric_texture: 0.3376, shape_reg: 0.0043, expression_reg: 0.0075, tex_reg: 0.0003, light_reg: 0.0001, cam_reg: 5.2136, all_loss: 5.6148, 
+2026-04-12 15:09:42.667 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 200/4794, Time: 2026-04-12-15:09:42 
+landmark: 0.0726, eye_distance: 0.0023, lip_distance: 0.0102, teacher_landmark: 0.0053, teacher_cam: 0.0137, teacher_code: 0.0155, photometric_texture: 0.4066, shape_reg: 0.0080, expression_reg: 0.0101, tex_reg: 0.0012, light_reg: 0.0003, cam_reg: 5.0068, all_loss: 5.5525, 
+2026-04-12 15:09:46.436 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 225/4794, Time: 2026-04-12-15:09:46 
+landmark: 0.2279, eye_distance: 0.0063, lip_distance: 0.0120, teacher_landmark: 0.0035, teacher_cam: 0.0035, teacher_code: 0.0050, photometric_texture: 0.3228, shape_reg: 0.0046, expression_reg: 0.0054, tex_reg: 0.0005, light_reg: 0.0000, cam_reg: 4.7932, all_loss: 5.3850, 
+2026-04-12 15:09:49.952 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 250/4794, Time: 2026-04-12-15:09:49 
+landmark: 0.0260, eye_distance: 0.0022, lip_distance: 0.0049, teacher_landmark: 0.0002, teacher_cam: 0.0010, teacher_code: 0.0023, photometric_texture: 0.4473, shape_reg: 0.0048, expression_reg: 0.0071, tex_reg: 0.0005, light_reg: 0.0000, cam_reg: 5.4131, all_loss: 5.9096, 
+2026-04-12 15:09:53.531 | INFO     | decalib.trainer:fit:704 - ExpName: deca_facescape_compare_model_a_lip_recover_v15_visualfirst_stable 
+Epoch: 0, Iter: 275/4794, Time: 2026-04-12-15:09:53 
+landmark: 0.0418, eye_distance: 0.0030, lip_distance: 0.0059, teacher_landmark: 0.0011, teacher_cam: 0.0031, teacher_code: 0.0043, photometric_texture: 0.3140, shape_reg: 0.0048, expression_reg: 0.0095, tex_reg: 0.0004, light_reg: 0.0000, cam_reg: 4.8975, all_loss: 5.2855, 
+2026-04-12 15:09:56.944 | INFO     | decalib.trainer:fit:686 - reached max_steps=300; stopping training

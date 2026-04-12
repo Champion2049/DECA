@@ -1,0 +1,2 @@
+checkpoint,exit_code,baseline_mean,finetuned_mean,baseline_trimmed,finetuned_trimmed,baseline_fail_rate,finetuned_fail_rate,hybrid_best_threshold,hybrid_best_trimmed,hybrid_best_fail_rate,selective_fallback,selective_mean,selective_trimmed,selective_fail_rate,report_path,debug_dir
+00000200.tar,0,0.136379,0.540137,0.106130,0.130312,0.000000,0.017000,,,,1955,0.136086,0.106022,0.000000,logs/model_compare_report_recheck_defaults_visualfirst_2000_00000200_2000.txt,logs/model_compare_debug_recheck_defaults_visualfirst_2000_00000200_2000

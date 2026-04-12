@@ -97,6 +97,9 @@ python scripts/compare_models.py \
   --top_k_examples 40 \
   --hybrid_metric lmk_abs_max \
   --hybrid_cam_thresholds 0.6,0.7,0.8,0.9,1.0,1.1,1.2 \
+    --hybrid_selective_abs1 0.90 \
+    --hybrid_selective_cam 10.0 \
+    --hybrid_selective_abs2 0.40 \
   --out "${BEST_REPORT_PATH}" \
   --debug_dir "${BEST_DEBUG_DIR}"
 

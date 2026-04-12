@@ -1,0 +1,49 @@
+DECA Model Comparison Report
+Samples: 1000
+
+Metric, Baseline, FineTuned, Better
+LandmarkErrorMean, 0.133033, 28.693888, Baseline
+LandmarkErrorTrimmedMean, 0.103732, 2.739518, Baseline
+LandmarkErrorMedian, 0.062541, 0.093430, Baseline
+LandmarkErrorP90, 0.303454, 12.898071, Baseline
+LandmarkFailureRate(>2.0), 0.000000, 0.153000, Baseline
+PhotometricL1Mean, 0.409544, 0.409544, Baseline
+RuntimeMsMean, 29.350, 26.352, FineTuned
+
+FailureThreshold: 2.0
+FailureCount: 153
+RealLandmarkSamples: 993
+TemplateLandmarkSamples: 7
+AllSamplesCSV: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/all_samples.csv
+AllFailuresCSV: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/all_failures.csv
+AllSuccessesCSV: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/all_successes.csv
+WorstFailuresCSV: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/worst_failures.csv
+WorstFailureRendersDir: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/worst_failures
+WorstFailureRendersWritten: ok=20, failed=0
+HybridAutoMetric: finetuned_lmk_abs_max
+HybridAutoThreshold: 0.600000
+HybridAutoFailureRendersDir: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/hybrid_auto_failures
+HybridAutoFailureRendersWritten: ok=20, failed=0
+SanityExamplesCSV: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/sanity_examples.csv
+SanityExamplesRendersDir: ./logs/ckpt_sweep_compare_model_a_lip_recover_v15_visualfirst_stable/debug_00000150/sanity_examples
+SanityExamplesRendersWritten: ok=20, failed=0
+
+HybridFallbackResults (baseline fallback when finetuned_lmk_abs_max > threshold)
+thr=0.600, fallback=985, lmk_trimmed=0.103765, lmk_median=0.062577, fail_rate=0.000000, runtime_ms=29.283
+thr=0.700, fallback=599, lmk_trimmed=0.104533, lmk_median=0.063288, fail_rate=0.000000, runtime_ms=28.170
+thr=0.800, fallback=222, lmk_trimmed=0.106409, lmk_median=0.065726, fail_rate=0.000000, runtime_ms=26.903
+thr=0.900, fallback=202, lmk_trimmed=0.107093, lmk_median=0.066212, fail_rate=0.000000, runtime_ms=26.840
+thr=1.000, fallback=195, lmk_trimmed=0.107894, lmk_median=0.067329, fail_rate=0.000000, runtime_ms=26.838
+thr=1.100, fallback=191, lmk_trimmed=0.108568, lmk_median=0.067738, fail_rate=0.000000, runtime_ms=26.836
+thr=1.200, fallback=191, lmk_trimmed=0.108568, lmk_median=0.067738, fail_rate=0.000000, runtime_ms=26.836
+HybridBest, thr=0.600, fallback=985, lmk_mean=0.132860, lmk_trimmed=0.103765, lmk_median=0.062577, lmk_p90=0.303454, fail_rate=0.000000, runtime_ms=29.283
+
+HybridSelectiveClusterGate
+SelectivePolicy, abs1=0.760, cam=6.500, abs2=0.400
+SelectiveStats, fallback=986, lmk_mean=0.132701, lmk_trimmed=0.103641, lmk_median=0.062541, lmk_p90=0.303454, fail_rate=0.000000, runtime_ms=29.278
+
+Landmark Stats On Real .npy Targets Only
+RealNpyLandmarkErrorMean, 0.130474, 28.884237, Baseline
+RealNpyLandmarkErrorTrimmedMean, 0.101080, 2.831825, Baseline
+RealNpyLandmarkErrorMedian, 0.062365, 0.091897, Baseline
+RealNpyLandmarkErrorP90, 0.292544, 12.986921, Baseline

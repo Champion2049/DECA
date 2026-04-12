@@ -1,0 +1,10 @@
+BEST_CHECKPOINT=./logs/facescape_compare_model_a_lip_recover_v15_visualfirst_stable/models/00000250.tar
+HARD_PASS=0
+IDEAL_MEAN_LT_0_9=0
+IMPOSSIBLE_STRICT_FAILRATE_WHEN_BASELINE_ZERO=1
+BaselineMean=0.136378
+FineTunedMean=1.639837
+BaselineTrimmed=0.106130
+FineTunedTrimmed=0.151369
+BaselineFailRate=0.000000
+FineTunedFailRate=0.034000

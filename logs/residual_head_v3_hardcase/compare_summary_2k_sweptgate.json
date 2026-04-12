@@ -1,0 +1,14 @@
+Residual Head Comparison Report
+Samples: 2000
+
+Metric, Baseline, ResidualHead, Better
+LandmarkErrorMean, 0.136379, 0.133135, ResidualHead
+LandmarkErrorTrimmedMean, 0.106129, 0.102584, ResidualHead
+LandmarkErrorMedian, 0.062491, 0.058430, ResidualHead
+LandmarkErrorP90, 0.312834, 0.303471, ResidualHead
+LandmarkFailureRate(>2.0), 0.000000, 0.000000, Baseline
+
+HybridSelectiveClusterGate
+SelectivePolicy, abs1=0.900, cam=10.000, abs2=0.400
+SelectiveStats, fallback=2, lmk_mean=0.133141, lmk_trimmed=0.102591, lmk_median=0.058430, lmk_p90=0.303471, fail_rate=0.000000
+AllSamplesCSV: logs/residual_head_v3_hardcase/debug_compare_2k_sweptgate/all_samples.csv

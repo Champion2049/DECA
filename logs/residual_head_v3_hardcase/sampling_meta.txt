@@ -1,0 +1,9 @@
+train_size=19179
+mean_weight=1.982176
+max_weight=4.320000
+hard_hits=14387
+mouth_bucket_boost=2.4
+eye_bucket_boost=2.0
+pose_bucket_boost=1.8
+hard_list=
+hard_list_boost=2.2

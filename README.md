@@ -268,41 +268,51 @@ Outputs:
 - `./logs/geometry_audit_real_lmk_FINAL.csv`: ranked mismatch list (worst first).
 - `./logs/geometry_audit_real_lmk_FINAL/*.jpg`: side-by-side baseline vs fine-tuned renders for the highest-mismatch cases.
 
-### Hybrid Model (Completed by @Champion2049)
+### Residual Head v2/v3 + Visual-First Gate (Active)
 
-The hybrid model integration was completed by **@Champion2049**.
+Current production methodology:
+- keep DECA baseline frozen (`./data/deca_model.tar`),
+- apply residual corrections from residual-v2 or residual-v3 specialist heads,
+- gate residual output using visual-first fallback thresholds.
 
-Basic idea:
-- Run the fine-tuned model by default because it often gives lower proxy landmark error on template-supervised splits.
-- Detect unstable predictions using a simple confidence proxy (`finetuned_lmk_abs_max`).
-- If the proxy is above a chosen threshold, fallback to the base DECA prediction for that sample.
+Active visual-first thresholds:
+- `abs1=0.90`, `cam=10.0`, `abs2=0.40`.
 
-Why this helps:
-- Fine-tuned DECA can improve median proxy metric on many normal inputs.
-- Baseline DECA is more stable on catastrophic cases.
-- The hybrid gate combines both strengths by suppressing unstable fine-tuned outliers.
+Primary result files:
+- `./logs/residual_head_v2_region/compare_summary_2k_defaultgate.json`
+- `./logs/residual_head_v2_region/gate_sweep_strict.json`
+- `./logs/residual_head_v2_region/compare_summary_2k_sweptgate.json`
+- `./logs/residual_head_v3_hardcase/compare_summary_2k_sweptgate.json`
+- `./logs/residual_head_v2_region/hard_subset_eval/leaderboard.csv`
+- `./logs/residual_head_v3_hardcase/hard_subset_eval/leaderboard.csv`
+- `./logs/residual_head_v3_hardcase/hard_subset_eval/standout_comparison_vs_v2.md`
 
-Final benchmark summary:
-- See `./logs/model_compare_report_FINAL.txt` for the final base-vs-hybrid comparison.
-- With the selected threshold, the hybrid setup achieved zero proxy failure-rate on the benchmark split while preserving speed.
-- Important: for the current `val_list_wsl.txt` split, `RealLandmarkSamples=0` and `TemplateLandmarkSamples=399`, so LandmarkError values are proxy/template-alignment numbers, not true geometry-accuracy ground truth.
+Final benchmark snapshot (2000 samples, active gate, baseline vs v2 vs v3):
 
-Final benchmark snapshot (399 samples, from `./logs/model_compare_report_FINAL.txt`):
-
-| Metric | Baseline | Fine-tuned | Hybrid (best threshold) |
+| Metric | Baseline | Residual v2 + Gate | Residual v3 Hardcase + Gate |
 |---|---:|---:|---:|
-| Landmark mean (proxy) | 0.472537 | 80.368398 | 0.219577 |
-| Landmark trimmed mean (proxy) | 0.474826 | 1.740729 | 0.208470 |
-| Landmark median (proxy) | 0.481752 | 0.197433 | 0.197433 |
-| Landmark p90 (proxy) | 0.559752 | 1.808978 | 0.288978 |
-| Failure rate (>2.0, proxy) | 0.000000 | 0.100251 | 0.000000 |
-| Runtime mean (ms) | 38.879 | 35.474 | 35.942 |
+| Landmark mean | 0.136378 | 0.134126 | 0.133141 |
+| Landmark trimmed mean | 0.106129 | 0.103650 | 0.102591 |
+| Landmark median | 0.062491 | 0.059837 | 0.058430 |
+| Landmark p90 | 0.312834 | 0.307526 | 0.303471 |
+| Failure rate (>2.0) | 0.000000 | 0.000000 | 0.000000 |
+| Fallback count | N/A | 2 / 2000 (0.1%) | 2 / 2000 (0.1%) |
+
+Hard-subset leaderboard (gated trimmed and gated win-rate):
+
+| Bucket | N | Baseline Trimmed | v2 Gated Trimmed | v3 Gated Trimmed | v2 Gated Win-Rate | v3 Gated Win-Rate |
+|---|---:|---:|---:|---:|---:|---:|
+| overall | 2000 | 0.106129 | 0.103650 | 0.102591 | 0.669 | 0.759 |
+| mouth | 808 | 0.110821 | 0.108665 | 0.107518 | 0.649 | 0.757 |
+| eyes | 309 | 0.111398 | 0.109171 | 0.107867 | 0.621 | 0.748 |
+| pose | 1476 | 0.074042 | 0.071407 | 0.070821 | 0.671 | 0.767 |
 
 Interpretation:
-- Fine-tuned can produce visually wrong outliers even when proxy landmark error looks low for some samples.
-- Baseline remains the more stable geometry reference in difficult cases.
-- Hybrid is the safer default because it auto-falls back to baseline for detected outliers.
-- Do not claim geometry accuracy gains from this table unless real landmark files (`.npy`) exist for the evaluated split.
+- v2 improves over baseline, and v3 hardcase improves further over v2 on overall and all hard subsets.
+- Biggest relative gains from v3 are in eye and mouth buckets (visual-priority regions).
+- The visual-first gate remains safety-first with unchanged failure rate and only 2/2000 fallbacks.
+
+Legacy proxy-only final table (`./logs/model_compare_report_FINAL.txt`) is retained for history but is not the active benchmark for deployment decisions.
 
 Hybrid testing commands:
 

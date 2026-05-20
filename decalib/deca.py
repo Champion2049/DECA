@@ -83,16 +83,92 @@ class DECA(nn.Module):
             self.flametex = FLAMETex(model_cfg).to(self.device)
         self.D_detail = Generator(latent_dim=self.n_detail+self.n_cond, out_channels=1, out_scale=model_cfg.max_z, sample_mode = 'bilinear').to(self.device)
         # resume model
-        model_path = self.cfg.pretrained_modelpath
-        if os.path.exists(model_path):
-            print(f'trained model found. load {model_path}')
-            checkpoint = torch.load(model_path, map_location=torch.device(self.device))
-            self.checkpoint = checkpoint
-            util.copy_state_dict(self.E_flame.state_dict(), checkpoint['E_flame'])
-            util.copy_state_dict(self.E_detail.state_dict(), checkpoint['E_detail'])
-            util.copy_state_dict(self.D_detail.state_dict(), checkpoint['D_detail'])
-        else:
-            print(f'please check model path: {model_path}')
+        model_path = os.path.abspath(
+            os.path.join(
+                os.path.dirname(__file__),
+                "..",
+                "data",
+                "deca_model.tar"
+            )
+        )
+        #r"C:\Users\Vini\OneDrive - Amrita vishwa vidyapeetham\side quests\2D-to-3D-image-reconstruction\DECA\logs\facescape_finetune_model_c\models\00024000.tar"
+
+        print(f'\n[DECA DEBUG] USING CHECKPOINT:\n{model_path}\n')
+
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(
+                f"\n[DECA ERROR] Checkpoint not found:\n{model_path}\n"
+            )
+
+        print(f'[DECA] Loading checkpoint: {model_path}')
+
+        checkpoint = torch.load(
+            model_path,
+            map_location=torch.device(self.device)
+        )
+
+        self.checkpoint = checkpoint
+
+        # =====================================================
+        # CHECKPOINT DEBUG
+        # =====================================================
+        print("\n========== CHECKPOINT DEBUG ==========")
+
+        print("Checkpoint keys:")
+        print(list(checkpoint.keys()))
+
+        if 'E_flame' in checkpoint:
+
+            print("\nE_flame type:")
+            print(type(checkpoint['E_flame']))
+
+            eflame_sd = checkpoint['E_flame']
+
+            first_key = list(eflame_sd.keys())[0]
+            first_val = eflame_sd[first_key]
+
+            print(f"\nFirst E_flame key: {first_key}")
+            print(f"Checkpoint tensor shape: {first_val.shape}")
+
+            # Remove DataParallel prefix if needed
+            clean_key = first_key.replace('module.', '')
+
+            
+
+        # =====================================================
+        # LOAD WEIGHTS
+        # =====================================================
+        # =====================================================
+        # LOAD WEIGHTS (REAL LOAD)
+        # =====================================================
+        print("\n[DECA] Loading weights via load_state_dict...\n")
+
+        self.E_flame.load_state_dict(
+            checkpoint['E_flame'],
+            strict=False
+        )
+
+        self.E_detail.load_state_dict(
+            checkpoint['E_detail'],
+            strict=False
+        )
+
+        self.D_detail.load_state_dict(
+            checkpoint['D_detail'],
+            strict=False
+        )
+
+        print("[DECA] Weights loaded successfully.")
+
+        # =====================================================
+        # VERIFY ACTUAL MODEL TENSORS
+        # =====================================================
+        w = list(self.E_flame.parameters())[0]
+
+        print(
+            f"[DECA] E_flame FIRST PARAM NORM AFTER LOAD: "
+            f"{w.norm().item():.6f}"
+        )
             # exit()
         # eval mode
         self.E_flame.eval()
@@ -227,32 +303,93 @@ class DECA(nn.Module):
             opdict['landmarks3d'] = landmarks3d
 
         if return_vis:
-            ## render shape
-            shape_images, _, grid, alpha_images = self.render.render_shape(verts, trans_verts, h=h, w=w, images=background, return_grid=True)
-            detail_normal_images = F.grid_sample(uv_detail_normals, grid, align_corners=False)*alpha_images
-            shape_detail_images = self.render.render_shape(verts, trans_verts, detail_normal_images=detail_normal_images, h=h, w=w, images=background)
-            
+
+    ## render shape
+            shape_images, _, grid, alpha_images = self.render.render_shape(
+                verts,
+                trans_verts,
+                h=h,
+                w=w,
+                images=background,
+                return_grid=True
+            )
+
+            # ============================================
+            # SAFE DETAIL HANDLING
+            # ============================================
+            if use_detail:
+
+                detail_normal_images = F.grid_sample(
+                    uv_detail_normals,
+                    grid,
+                    align_corners=False
+                ) * alpha_images
+
+                shape_detail_images = self.render.render_shape(
+                    verts,
+                    trans_verts,
+                    detail_normal_images=detail_normal_images,
+                    h=h,
+                    w=w,
+                    images=background
+                )
+
+            else:
+
+                # Fallback to coarse render
+                shape_detail_images = shape_images
+
             ## extract texture
             ## TODO: current resolution 256x256, support higher resolution, and add visibility
+
             uv_pverts = self.render.world2uv(trans_verts)
-            uv_gt = F.grid_sample(images, uv_pverts.permute(0,2,3,1)[:,:,:,:2], mode='bilinear', align_corners=False)
+
+            uv_gt = F.grid_sample(
+                images,
+                uv_pverts.permute(0, 2, 3, 1)[:, :, :, :2],
+                mode='bilinear',
+                align_corners=False
+            )
+
             if self.cfg.model.use_tex:
+
                 ## TODO: poisson blending should give better-looking results
+
                 if self.cfg.model.extract_tex:
-                    uv_texture_gt = uv_gt[:,:3,:,:]*self.uv_face_eye_mask + (uv_texture[:,:3,:,:]*(1-self.uv_face_eye_mask))
+
+                    uv_texture_gt = (
+                        uv_gt[:, :3, :, :] * self.uv_face_eye_mask
+                        + (
+                            uv_texture[:, :3, :, :]
+                            * (1 - self.uv_face_eye_mask)
+                        )
+                    )
+
                 else:
-                    uv_texture_gt = uv_texture[:,:3,:,:]
+
+                    uv_texture_gt = uv_texture[:, :3, :, :]
+
             else:
-                uv_texture_gt = uv_gt[:,:3,:,:]*self.uv_face_eye_mask + (torch.ones_like(uv_gt[:,:3,:,:])*(1-self.uv_face_eye_mask)*0.7)
-            
+
+                uv_texture_gt = (
+                    uv_gt[:, :3, :, :] * self.uv_face_eye_mask
+                    + (
+                        torch.ones_like(uv_gt[:, :3, :, :])
+                        * (1 - self.uv_face_eye_mask)
+                        * 0.7
+                    )
+                )
+
             opdict['uv_texture_gt'] = uv_texture_gt
+
             visdict = {
-                'inputs': images, 
+                'inputs': images,
                 'landmarks2d': util.tensor_vis_landmarks(images, landmarks2d),
                 'landmarks3d': util.tensor_vis_landmarks(images, landmarks3d),
                 'shape_images': shape_images,
                 'shape_detail_images': shape_detail_images
             }
+
             if self.cfg.model.use_tex:
                 visdict['rendered_images'] = ops['images']
 

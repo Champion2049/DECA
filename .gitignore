@@ -48,3 +48,21 @@ logs/
 cluster_scripts
 internal
 *TestSamples*
+
+# exports
+exports/
+
+# flame assets
+data/FLAME2020/
+
+# downloaded installers
+*.sh
+
+# docs
+*.pdf
+
+# accidental duplicate downloads
+*(1).yml
+
+# weird accidental files
+=0.6.0
